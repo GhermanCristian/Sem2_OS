@@ -16,7 +16,7 @@ First set:
    awk '$4 ~/[02468]$/ {print $1 "   " $2 "   " $4}' angajati.txt
 
 6. Display the records for the employees whose name begins with the letter T.
-   awk '$1 ~/[T]/ {print}' angajati.txt
+   awk '$1 ~/^[T]/ {print}' angajati.txt
 
 7. Display the name, first name and date of birth for the employees born in March.
    awk '$3 ~/^.{1,2}.[3]/' {print $1, $2, $3}' angajati.txt
