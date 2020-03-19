@@ -1,0 +1,66 @@
+First set:
+
+1. Display each line of the file.
+   awk '{print $0}' angajati.txt
+
+2. Display each line of the file, preceded by its line number.
+   awk '{print NR ".\t" $0}' angajati.txt
+
+3. Display each line of the file, preceded by its number of fields
+   awk '{print NF ".\t" $0}' angajati.txt
+
+4. Display only the name, the first name and the phone number for each employee
+   awk '{print $1 "   " $2 "   " $4}' angajati.txt.
+
+5. Display only the name, the first name and the phone number for each employee whose number ends with an even digit.
+   awk '$4 ~/[02468]$/ {print $1 "   " $2 "   " $4}' angajati.txt
+
+6. Display the records for the employees whose name begins with the letter T.
+   awk '$1 ~/[T]/ {print}' angajati.txt
+
+7. Display the name, first name and date of birth for the employees born in March.
+   awk '$3 ~/^.{1,2}.[3]/' {print $1, $2, $3}' angajati.txt
+   OR
+   awk '$3 ~/^.{1,2}\/[3]/ {print $1, $2, $3}' angajati.txt
+
+8. Display the records for the employees whose salary is 1969.
+   awk '$5 == 1969 {print}' angajati.txt
+
+9. Display the records for the employees whose salary is less than 2000 
+   awk '$5 < 2000 {print}' angajati.txt
+
+10. Display the records for the employees born before 1950.
+   awk -F'[/ ]' '$5 < 1950 {print}' angajati.txt
+   *is there any other way of doing this ?
+   
+11. Display the records that contain more than 42 characters.
+   awk '$0 ~/^.{43,}/{print}' angajati.txt
+   OR
+   awk 'length($0) > 42 {print}' angajati.txt
+
+12. Compute and display the amount needed to pay all salaries each month
+    awk 'BEGIN {sum = 0} {sum += $5} END {print "Required amount: ", sum}' angajati.txt
+
+13. Compute and display the average salary.
+    awk 'BEGIN {sum = 0; count = 0} {sum += $5; count += 1} END {print "Average salary: ", sum / count}' angajati.txt 
+
+
+
+Second set:
+
+1. Given an input file, display:
+   a) the total number of lines that have at least one word containing only vowels
+   grep -w "[aeiouAEIOU]\+" passwd.fake
+   
+   b) the total number of lines where the third word is a number 
+   awk -F '[ /:]' '$3 ~/^[0-9]+$/ {print}' passwd.fake | wc -l
+
+2. Display only the size of the files in the current directory
+   ls -l | awk '{print $5}'
+
+3. Using the /etc/passwd file, display how many student groups have a student with the name Dan, who has an even registration number (numar matricol) (grep, awk, sed, sort, uniq, wc)
+   awk -F '[ /:]' '($6 ~/Dan/) && ($1 ~/[02468]+$/) {print $10}' passwd.fake | sort | uniq | wc -l
+   * checks if name == Dan
+   * checks if the last digit(s) of the username is/ are even (because the registration number is at the end of the username)
+   * if the conditions are satisfied, awk prints the group number, which is passed to sort, then that result is passed to uniq
+   * wc -l prints how many elements were printed after uniq <=> the number of student groups ...
