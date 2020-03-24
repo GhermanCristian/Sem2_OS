@@ -1,0 +1,87 @@
+#!/bin/sh
+
+# Display the second argument of the command line
+if [ $# -lt 2 ];
+        then
+                echo "Not enough arguments in the cmd line"
+        else
+                echo $2
+fi
+
+# Display the 12th argument of the command line
+if [ $# -lt 12 ];
+        then
+                echo "Not enough arguments in the cmd line"
+        else
+                shift 3
+                echo $9
+fi
+
+# Display the content of a file given as command line argument
+if [ $# -lt 1 ];
+        then
+                echo "Not enough arguments in the cmd line"
+        else
+                cat $1
+fi
+
+# Display the number of lines of a file given as command line argument
+if [ $# -lt 1 ];
+        then
+                echo "Not enough arguments in the cmd line"
+        else
+                cat $1 | wc -l
+fi
+
+# Find all the files in a directory received as command line argument that contain numbers greater than 1000. If the command line doesn't contain any arguments, display a message and exit
+if [ $# -lt 1 ];
+then
+        echo "Not enough arguments in the cmd line"
+else
+        for filename in `find $1`
+        do
+                if grep -q "[1-9][0-9]\{3,\}" $filename
+                then
+                        echo $filename
+                fi
+        done
+fi
+
+# Compute and display the average number of lines in all the text files in the current directory.
+sum=0
+lineCount=0
+fileCount=0
+for filename in `find -name "*.txt"`
+do
+        lineCount=`cat $filename | wc -l`
+        sum=`expr $sum + $lineCount`
+        fileCount=`expr $fileCount + 1`
+done
+echo `expr $sum / $fileCount`
+
+#For all the arguments in the command line:
+#if the argument is a file - display the name and the number of characters and the number of lines in that file
+#if the argument is a directory - display the name and the number of files in that directory (recursively)
+#If the command line doesn't contain any arguments, display a message and exit.
+if [ $# -lt 1 ];
+then
+        echo "Not enough arguments in the cmd line"
+else
+        for arg in $@
+        do
+                if [ -f $arg ];
+                then
+                        echo $arg
+                        echo "Nr chars =" `cat $arg | wc -m`
+                        echo "Nr lines =" `cat $arg | wc -l`
+                elif [ -d $arg ];
+                then
+                        echo $arg
+                        echo "Number of files =" `ls -R $arg | wc -l`
+                fi
+                echo ""
+        done
+fi
+
+#Find recursively all the file types in the current directory and display a report showing how many files of each type are there
+ls -R . | awk -F '[.]' '{print "file(s) of type ." $2}' | sort | uniq -c
