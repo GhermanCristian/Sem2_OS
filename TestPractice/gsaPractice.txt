@@ -1,0 +1,35 @@
+1. Find all the usernames that logged in from "economica" on a Sunday
+awk '$3 ~/economica/ && $4 ~/Sun/ {print $1}' last.fake | sort | uniq
+
+2. Find all the users that logged into the system after 11PM
+awk '$7 ~/^23:/ {print $1}' last.fake | sort | uniq 
+
+3. Display the full names of the users having a username that starts with "m" and with a user ID divisible by 7.
+awk -F[a-zA-Z:] '$5 % 7 == 0 {print $0}' passwd.fake | awk -F[:] '$1 ~/^m/ {print $5}'
+OR
+awk -F[:] '$1 ~/^m/ && $3 % 7 == 0 {print $5}' passwd.fake #i had no idea the third field was the ID
+
+4. Display all the distinct TTYs used by user root.
+awk '$1~/^root$/ {print $6}' ps.fake | sort | uniq
+
+5. Find the full names of all the users whose username ends in 88 
+awk -F[:] '$1~/88$/ {print $5}' passwd.fake
+
+6. Find all users whose user ID has three digits and starts with 23
+awk -F[:] 'length($3) == 3 && $3~/^23/ {print $5}' passwd.fake
+
+7. Find all usersnames starting with "t" that logged on "pts/9"
+awk '$2~/pts\/9$/ && $1~/^t/ {print $1}' last.fake | sort | uniq
+
+8. Find all the distinct usernames starting with "r" that are currently running programs, and display them duplicating every vowel 
+awk '$1~/^r/ {print $1}' ps.fake | sort | uniq | sed "s/\([aeiou]\)/\1\1/g"
+
+9.Display all the distinct lines left in /etc/passwd after deleting all letter and digits and spaces.
+sed "s/[a-zA-Z0-9 ]//g" passwd.fake | sort | uniq
+
+10. Display all the distinct lines left in /etc/passwd after deleting all characters except "r".
+sed "s/[^r]//g" passwd.fake | sort | uniq
+
+11. Calculate the average of the PIDs of the processes currently running in the system.
+awk 'BEGIN {sum = 0} {sum += $2} END {print sum/NR}' ps.fake
+
