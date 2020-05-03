@@ -1,0 +1,31 @@
+1. Find all the lines where the student's username is even (hint: ends with 0, 2, 4, 6 or 8); 
+grep "^.\{7\}[02468]" passwd.fake
+OR
+awk -F[:] '$1~/[02468]$/ {print}' passwd.fake
+
+2. Find all the lines where the student's name is Dan; 
+grep "Dan" passwd.fake
+
+3. Find all the lines where the student has two given names, with a hyphen (ex: Elena-Ioana); 
+grep "[a-zA-Z]\+-[a-zA-Z]\+" passwd.fake
+
+4. Find all the lines where the student's family name is exactly 9 characters long. 
+grep "^.\{11\}[0-9]\{,3\}.\{5\}[a-zA-Z]\{9\} " passwd.fake
+OR
+grep -w "^.\{11\}[0-9]\{,3\}.\{5\}[a-zA-Z]\{9\}" passwd.fake
+OR
+awk -F'[: ]' 'length($5) == 9 {print}' passwd.fake
+
+5. Find all the lines where the student's family name is 9 characters or longer. 
+grep "^.\{11\}[0-9]\{,3\}.\{5\}[a-zA-Z]\{9,\} " passwd.fake
+
+6. Display the content of /etc/passwd, removing all uppercase letters (hint: replace them with nothing). 
+sed "s/[A-Z]//g" passwd.fake
+
+7. Display the content of /etc/passwd surrounding with parentheses any sequence of 3 or more vowels.
+sed "s/\([aeiou]\{3,\}\)/(\1)/gi" passwd.fake
+
+
+
+1. Replace the first four letter word on each line with zzzz
+sed "s/\<[a-z]\{4\}\>/zzzz/i" passwd.fake
