@@ -33,3 +33,8 @@ sed "s/[^r]//g" passwd.fake | sort | uniq
 11. Calculate the average of the PIDs of the processes currently running in the system.
 awk 'BEGIN {sum = 0} {sum += $2} END {print sum/NR}' ps.fake
 
+
+1. Display in reversed alphabetical order the names of the files in the current directory that have write permissions for all users. 
+ls -l | awk '$1~/..w..w..w./ {print $9}' | sort -r
+
+
