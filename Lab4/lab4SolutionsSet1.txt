@@ -51,15 +51,21 @@ Second set:
 1. Given an input file, display:
    a) the total number of lines that have at least one word containing only vowels
    grep -w "[aeiouAEIOU]\+" passwd.fake
-   
+   OR
+   grep -w -i "[aeiou]\+" aux.txt | wc -l
+	   
    b) the total number of lines where the third word is a number 
    awk -F '[ /:]' '$3 ~/^[0-9]+$/ {print}' passwd.fake | wc -l
+   OR
+   grep "\<.\+ .\+ [0-9]\+" aux.txt | wc -l
 
 2. Display only the size of the files in the current directory
    ls -l | awk '{print $5}'
 
 3. Using the /etc/passwd file, display how many student groups have a student with the name Dan, who has an even registration number (numar matricol) (grep, awk, sed, sort, uniq, wc)
    awk -F '[ /:]' '($6 ~/Dan/) && ($1 ~/[02468]+$/) {print $10}' passwd.fake | sort | uniq | wc -l
+   OR
+   awk -F'[:/]' '$5~/Dan/ && $3 % 2 == 0 {print $9}' passwd.fake | sort | uniq | wc -l
    * checks if name == Dan
    * checks if the last digit(s) of the username is/ are even (because the registration number is at the end of the username)
    * if the conditions are satisfied, awk prints the group number, which is passed to sort, then that result is passed to uniq
