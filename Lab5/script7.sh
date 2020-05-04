@@ -13,13 +13,14 @@ else
 	do
 		if [ -f $arg ];
 		then
-			echo $arg
+			echo $arg is a file
 			echo "Nr chars =" `cat $arg | wc -m`
 			echo "Nr lines =" `cat $arg | wc -l`
 		elif [ -d $arg ];
 		then
-			echo $arg
-			echo "Number of files =" `ls -R $arg | wc -l`
+			echo $arg is a directory
+			echo "Number of files =" `find $arg -type f | wc -l`
+			#echo "Number of files =" `ls -R $arg | wc -l`
 		fi
 		echo ""
 	done
