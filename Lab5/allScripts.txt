@@ -40,7 +40,18 @@ then
 else
         for filename in `find $1`
         do
-                if grep -q "[1-9][0-9]\{3,\}" $filename
+		# also interesting
+		# find all numbers with a given property in some files
+		# here the property is "> 1000"
+		#touch tempfile.txt
+		#for file in `find -type f -name "*.sh"`
+		#do
+		#	        grep -o -w "[0-9]\+" $file >> tempfile.txt
+		#	done
+		#	awk '$1 > 1000 {print "number is: " $1}' tempfile.txt
+		#	rm tempfile.txt
+                
+		if grep -q "[1-9][0-9]\{3,\}" $filename
                 then
                         echo $filename
                 fi
@@ -88,7 +99,7 @@ fi
 touch tempfile8.txt
 for file in `find . -type f`
 do
-	        echo $file >> tempfile8.txt
+        echo $file >> tempfile8.txt
 done
 
 	awk -F'[./]' '{print $NF}' tempfile8.txt | sort | uniq -c | awk '{print "There are " $1 " file(s) of type "$2}'
