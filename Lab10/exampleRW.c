@@ -31,14 +31,18 @@ int main(){
 	pthread_t readerThreads[READER_COUNT];
 	pthread_t writerThreads[WRITER_COUNT];
 	int i;
+	int readerID[READER_COUNT];
+	int writerID[WRITER_COUNT];
 
 	pthread_rwlock_init(&rwl, NULL);
 
 	for(i = 0; i < READER_COUNT; i++){
-		pthread_create(&readerThreads[i], NULL, checkSeats, (void*)&i);
+		readerID[i] = i;
+		pthread_create(&readerThreads[i], NULL, checkSeats, (void*)&readerID[i]);
 	}
 	for(i = 0; i < WRITER_COUNT; i++){
-		pthread_create(&writerThreads[i], NULL, purchaseTicket, (void*)&i);
+		writerID[i] = i;
+		pthread_create(&writerThreads[i], NULL, purchaseTicket, (void*)&writerID[i]);
 	}
 
 	for(i = 0; i < READER_COUNT; i++){
@@ -49,4 +53,6 @@ int main(){
 	}
 
 	pthread_rwlock_destroy(&rwl);
+
+	return 0;
 }

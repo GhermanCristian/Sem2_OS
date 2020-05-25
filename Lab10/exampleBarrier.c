@@ -26,9 +26,7 @@ int main(){
 
 	for(i = 0; i < THREAD_COUNT; i++){
 		threadID[i] = i;
-		// i think this first version is safer than the second one
 		pthread_create(&threads[i], NULL, threadFunction, (void*)&threadID[i]);
-		//pthread_create(&threads[i], NULL, threadFunction, (void*)&i);
 	}
 	for(i = 0; i < THREAD_COUNT; i++){
 		pthread_join(threads[i], NULL);
