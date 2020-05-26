@@ -38,6 +38,7 @@ int main(){
 	int i;
 	int actualSum = 0;
 	pthread_t threads[THREAD_COUNT];
+	ThreadArgument threadArg[THREAD_COUNT];
 
 	srand(time(NULL));
 	pthread_mutex_init(&mtx, NULL);
@@ -48,11 +49,10 @@ int main(){
 	}
 
 	for(i = 0; i < THREAD_COUNT; i++){
-		ThreadArgument currentArgument;
-		currentArgument.array = numbers;
-		currentArgument.startPos = ( NUMBER_COUNT / THREAD_COUNT ) * i;
-		currentArgument.endPos = ( NUMBER_COUNT / THREAD_COUNT ) * (i + 1);
-		pthread_create(&threads[i], NULL, numberSum, (void*)&currentArgument);
+		threadArg[i].array = numbers;
+		threadArg[i].startPos = ( NUMBER_COUNT / THREAD_COUNT ) * i;
+		threadArg[i].endPos = ( NUMBER_COUNT / THREAD_COUNT ) * (i + 1);
+		pthread_create(&threads[i], NULL, numberSum, (void*)&threadArg[i]);
 	}
 
 	for(i = 0; i < THREAD_COUNT; i++){
