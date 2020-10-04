@@ -16,6 +16,7 @@ void* generateEvenNumber(void* list){
 	while (currentLength < n){
 		((int*)list)[currentLength] = (rand() % 20) * 2;
 		currentLength++;
+		//pthread_mutex_unlock(&mtxOdd);
 		pthread_mutex_lock(&mtxEven);
 		pthread_mutex_unlock(&mtxOdd);
 	}

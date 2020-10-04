@@ -12,12 +12,14 @@ typedef struct ThreadArgument{
 }ThreadArgument;
 
 int globalSum = 0;
+int n = 0;
 
 void* arraySum(void *argument){
 	int i;
 	int localSum = 0;
 	ThreadArgument currentArgument = *(ThreadArgument*)argument;
 
+	n++;
 	for(i = currentArgument.startIndex; i < currentArgument.endIndex; i++){
 		localSum += currentArgument.array[i];
 	}
@@ -51,6 +53,6 @@ int main(){
 	}
 
 	printf("Global sum = %d\n", globalSum);
-
+	printf("n = %d\n", n);
 	return 0;
 }

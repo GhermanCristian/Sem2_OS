@@ -40,7 +40,7 @@ int main(){
 	pthread_mutex_init(&mtx, NULL);
 
 	for (i = 0; i < ELEMENT_COUNT; i++){
-		array[i] = 1;
+		array[i] = 100;
 	}
 
 	for (i = 0; i < THREAD_COUNT; i++){
